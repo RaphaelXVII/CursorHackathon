@@ -7,7 +7,7 @@
 
 ## Overview
 
-A Next.js 14 (App Router) frontend for PromptTuber. Users type a character description, hit Generate, and watch their Live2D VTuber avatar come to life. Face tracking is enabled via a toggle that connects to a backend WebSocket stream.
+A Next.js 15 (App Router) frontend for PromptTuber. Users type a character description, hit Generate, and watch their Live2D VTuber avatar come to life. Face tracking is enabled via a toggle that connects to a backend WebSocket stream.
 
 **Visual style:** Dark VTuber aesthetic — deep purples, blues, neon accents.  
 **Layout:** Two-column — controls/prompt on the left, avatar canvas on the right.  
