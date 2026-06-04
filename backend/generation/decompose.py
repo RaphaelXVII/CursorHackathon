@@ -1,9 +1,11 @@
+# Using Gemini generative API to decompose character prompts into per-layer descriptions.
 import google.generativeai as genai
 import json, os
 
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-2.5-flash")
 
+# Layers for the model to generate
 LAYER_SCHEMA = {
     "style": "str",
     "base_face": "str",
@@ -17,6 +19,7 @@ LAYER_SCHEMA = {
 }
 
 def decompose_prompt(user_prompt: str) -> dict:
+    # Creates a prompt for the model to generate a JSON object matching LAYER_SCHEMA.
     response = model.generate_content(
         f"""You are an art director for VTuber character design.
 Decompose the user's character description into per-layer art prompts.
