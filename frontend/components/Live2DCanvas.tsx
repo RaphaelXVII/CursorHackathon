@@ -20,10 +20,13 @@ export default function Live2DCanvas() {
     if (!containerRef.current) return
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let app: any
+    let cancelled = false
 
     async function init() {
       const PIXI           = await import('pixi.js')
+      if (cancelled) return
       const { Live2DModel } = await import('pixi-live2d-display')
+      if (cancelled) return
 
       // Required once so Live2D motion updates run each tick
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,6 +37,7 @@ export default function Live2DCanvas() {
         backgroundAlpha: 0,
         antialias: true,
       })
+      if (cancelled) { app.destroy(true); return }
       containerRef.current!.appendChild(app.view as HTMLCanvasElement)
       appRef.current = app
 
@@ -50,6 +54,7 @@ export default function Live2DCanvas() {
     init()
 
     return () => {
+      cancelled = true
       app?.destroy(true)
       appRef.current  = null
       modelRef.current = null

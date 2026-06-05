@@ -10,6 +10,7 @@ class TrackingSocket {
   private shouldConnect = false
 
   connect() {
+    if (this.shouldConnect) return
     this.shouldConnect = true
     useStore.getState().setActive(true)
     this._open()
