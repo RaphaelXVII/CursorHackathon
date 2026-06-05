@@ -23,7 +23,7 @@ Prompt → Generate Layered Artwork → Load onto Template Rig → Face Track �
 │  Backend (Python / FastAPI)                          │
 │  ├── Generation Pipeline                            │
 │  │   ├── Claude API (prompt → layer manifest)       │
-│  │   ├── Stability AI API (manifest → layer PNGs)   │
+│  │   ├── fal.ai API (manifest → layer PNGs)         │
 │  │   └── Template mask system                       │
 │  ├── Tracking Service                               │
 │  │   ├── MediaPipe Face Landmarker (478 landmarks)  │
@@ -41,7 +41,7 @@ Prompt → Generate Layered Artwork → Load onto Template Rig → Face Track �
 | Backend       | Python, FastAPI                  | API server, WebSocket, orchestration          |
 | Face Tracking | MediaPipe Face Landmarker        | Webcam → 478 facial landmarks in real time    |
 | LLM           | Claude API (Anthropic)           | Decomposes user prompt into per-layer descriptions |
-| Image Gen     | Stability AI API (SDXL/Flux)     | Generates per-layer character artwork via masked inpainting |
+| Image Gen     | fal.ai (fast-sdxl)               | Generates per-layer character artwork at 512×512              |
 | Transport     | WebSocket (Starlette)            | Streams tracking parameters to frontend       |
 
 ## Generation Pipeline
@@ -113,7 +113,7 @@ prompttuber/
 │   ├── main.py                   # FastAPI app entry point
 │   ├── generation/
 │   │   ├── decompose.py          # Claude API: prompt → layer manifest
-│   │   ├── generate_layers.py    # Stability API: manifest → per-layer PNGs
+│   │   ├── generate_layers.py    # fal.ai API: manifest → per-layer PNGs
 │   │   ├── templates/            # Silhouette masks for each layer type
 │   │   └── atlas.py              # Assembles layers into texture atlas
 │   ├── tracking/
@@ -132,7 +132,7 @@ prompttuber/
 - Node.js 18+
 - Python 3.10+
 - Webcam
-- API keys: Anthropic (Claude), Stability AI
+- API keys: Gemini (decompose), fal.ai (layer images)
 
 ### Backend
 
@@ -144,7 +144,7 @@ pip install -r requirements.txt
 
 # Set environment variables
 export ANTHROPIC_API_KEY=your_key_here
-export STABILITY_API_KEY=your_key_here
+export FAL_KEY=your_key_here
 
 uvicorn main:app --reload --port 8000
 ```
@@ -163,7 +163,7 @@ The app will be available at `http://localhost:3000`.
 
 **Person A: Generation Pipeline (Backend + AI)**
 - Claude API integration for prompt decomposition
-- Stability AI API integration for layer generation
+- fal.ai API integration for layer generation
 - Template mask system design
 - Texture atlas assembly
 - `/generate` API endpoint

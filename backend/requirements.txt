@@ -1,0 +1,6 @@
+google-generativeai
+requests
+Pillow
+fastapi
+uvicorn[standard]
+python-dotenv
