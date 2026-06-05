@@ -28,10 +28,6 @@ export default function Live2DCanvas() {
       const { Live2DModel } = await import('pixi-live2d-display')
       if (cancelled) return
 
-      // Required once so Live2D motion updates run each tick
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Live2DModel.registerTicker(PIXI.Ticker as any)
-
       app = new PIXI.Application({
         resizeTo: containerRef.current!,
         backgroundAlpha: 0,
@@ -75,7 +71,7 @@ export default function Live2DCanvas() {
         modelRef.current = null
       }
 
-      const model = await Live2DModel.from(modelUrl!)
+      const model = await Live2DModel.from(modelUrl!, { ticker: app.ticker })
       const { width, height } = app.screen
       model.x = width / 2
       model.y = height / 2
