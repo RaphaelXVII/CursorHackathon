@@ -139,6 +139,12 @@ html, body {
   }
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(50%); }
+  100% { transform: translateX(-100%); }
+}
+
 /* Purple palette override — keeps shadcn components on-brand */
 .dark {
   --primary: oklch(0.677 0.215 294);        /* #b066ff */

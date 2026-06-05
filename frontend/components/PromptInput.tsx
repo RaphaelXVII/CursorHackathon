@@ -6,15 +6,13 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Separator } from '@/components/ui/separator'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Check, Loader2, Sparkles } from 'lucide-react'
 
 const STEPS = [
-  { key: 'decomposing',       label: 'Decomposing prompt with Claude' },
-  { key: 'generating_layers', label: 'Generating character layers' },
-  { key: 'assembling',        label: 'Assembling Live2D model' },
+  { key: 'decomposing',       label: 'Decomposing prompt with Claude', icon: '1' },
+  { key: 'generating_layers', label: 'Generating character layers',    icon: '2' },
+  { key: 'assembling',        label: 'Assembling Live2D model',        icon: '3' },
 ] as const
 
 const STEP_DURATIONS_MS = [3_000, 20_000, 5_000]
@@ -32,6 +30,7 @@ export default function PromptInput() {
   const reset        = useStore((s) => s.reset)
 
   const isGenerating     = ACTIVE_STATUSES.has(status)
+  const isDone           = status === 'done'
   const currentStepIndex = STEPS.findIndex((s) => s.key === status)
 
   async function handleGenerate() {
@@ -68,8 +67,8 @@ export default function PromptInput() {
   }
 
   return (
-    <Card className="flex flex-col h-full rounded-none border-0 border-r border-[#b066ff]/15 bg-[#b066ff]/[0.04]">
-      <CardHeader className="pb-4 border-b border-[#b066ff]/12">
+    <Card className="flex flex-col h-full rounded-none border-0 border-r border-[#b066ff]/25 bg-[#1a1028]/80">
+      <CardHeader className="pb-4 border-b border-[#b066ff]/20">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-[#b066ff] shadow-[0_0_8px_#b066ff]" />
           <span className="text-[#b066ff] text-xs font-semibold tracking-widest uppercase">PromptTuber</span>
@@ -77,72 +76,125 @@ export default function PromptInput() {
         <p className="text-xs text-muted-foreground mt-1 ml-4">Generate a Live2D VTuber from a text prompt</p>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4 flex-1 overflow-y-auto py-5">
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="prompt" className="text-white/60">Character prompt</Label>
+      <CardContent className="flex flex-col gap-5 justify-center flex-1 overflow-y-auto py-6 px-5">
+        {/* Prompt input */}
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="prompt" className="text-white/70 text-sm font-medium">Character prompt</Label>
           <Textarea
             id="prompt"
-            className="h-28 resize-none bg-white/[0.03] border-[#b066ff]/25 placeholder:text-white/20 focus-visible:ring-[#b066ff]/50 focus-visible:border-[#b066ff]/50"
-            placeholder="anime girl with silver hair, fox ears, red hoodie…"
+            className="h-32 resize-none bg-white/[0.06] border-[#b066ff]/20 placeholder:text-white/25 focus-visible:ring-[#b066ff]/40 focus-visible:border-[#b066ff]/40 text-sm leading-relaxed"
+            placeholder="anime girl with silver hair, fox ears, red hoodie, cheerful expression, detailed eyes..."
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             disabled={isGenerating}
           />
-          <p className="text-[11px] text-muted-foreground">Be specific — style, colors, features.</p>
+          <p className="text-[11px] text-white/30">Be specific — style, colors, features, expression.</p>
         </div>
 
+        {/* Generate button */}
         <Button
           onClick={handleGenerate}
           disabled={!prompt.trim() || isGenerating}
-          className="w-full bg-gradient-to-r from-[#b066ff] to-[#6699ff] hover:shadow-[0_0_16px_rgba(176,102,255,0.5)] transition-shadow border-0"
+          className="w-full h-10 bg-gradient-to-r from-[#b066ff] to-[#6699ff] hover:shadow-[0_0_20px_rgba(176,102,255,0.4)] transition-all duration-300 border-0 font-medium"
         >
-          {isGenerating ? 'Generating…' : 'Generate avatar'}
+          {isGenerating ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              Generating...
+            </>
+          ) : (
+            <>
+              <Sparkles className="w-4 h-4" />
+              Generate avatar
+            </>
+          )}
         </Button>
 
-        {isGenerating && (
-          <>
-            <Separator className="bg-white/[0.06]" />
-            <div className="flex flex-col gap-2">
-              <span className="text-[11px] text-muted-foreground font-medium tracking-wider uppercase">Progress</span>
-              {STEPS.map((step, i) => {
-                const isDone   = i < currentStepIndex
-                const isActive = i === currentStepIndex
-                return (
-                  <div
-                    key={step.key}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-lg border text-xs transition-all duration-300 ${
-                      isActive ? 'border-[#b066ff]/50 bg-[#b066ff]/10 text-white'
-                      : isDone  ? 'border-green-500/30 bg-green-500/5 text-green-400'
-                      : 'border-white/5 bg-white/[0.02] text-white/25'
-                    }`}
-                  >
-                    <span className={`w-2 h-2 flex-shrink-0 rounded-full ${
-                      isActive ? 'bg-[#b066ff] shadow-[0_0_6px_#b066ff] animate-pulse'
-                      : isDone  ? 'bg-green-400'
-                      : 'bg-white/10'
-                    }`} />
-                    <span className="flex-1">{step.label}</span>
-                    {isActive && (
-                      <Badge variant="secondary" className="bg-[#b066ff]/20 text-[#b066ff] border-0 text-[10px]">
-                        Active
-                      </Badge>
+        {/* Pipeline steps — always visible */}
+        <div className="flex flex-col gap-1 mt-1">
+          <span className="text-[10px] text-white/30 font-medium tracking-wider uppercase mb-2">Pipeline</span>
+          {STEPS.map((step, i) => {
+            const isDoneStep = isDone || (isGenerating && i < currentStepIndex)
+            const isActive   = isGenerating && i === currentStepIndex
+            const isPending  = !isDoneStep && !isActive
+
+            return (
+              <div key={step.key} className="relative">
+                {/* Connector line */}
+                {i < STEPS.length - 1 && (
+                  <div className={`absolute left-[13px] top-[28px] w-[2px] h-[12px] transition-colors duration-500 ${
+                    isDoneStep ? 'bg-green-500/40' : isActive ? 'bg-[#b066ff]/30' : 'bg-white/[0.06]'
+                  }`} />
+                )}
+                <div
+                  className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-500 ${
+                    isActive  ? 'bg-[#b066ff]/[0.08] border border-[#b066ff]/30'
+                    : isDoneStep ? 'bg-green-500/[0.05] border border-green-500/20'
+                    : 'bg-transparent border border-transparent'
+                  }`}
+                >
+                  {/* Step indicator */}
+                  <div className={`w-[26px] h-[26px] rounded-full flex items-center justify-center flex-shrink-0 text-[11px] font-semibold transition-all duration-500 ${
+                    isActive  ? 'bg-[#b066ff]/20 text-[#b066ff] border border-[#b066ff]/40 shadow-[0_0_10px_rgba(176,102,255,0.3)]'
+                    : isDoneStep ? 'bg-green-500/15 text-green-400 border border-green-500/30'
+                    : 'bg-white/[0.04] text-white/20 border border-white/[0.08]'
+                  }`}>
+                    {isDoneStep ? (
+                      <Check className="w-3.5 h-3.5" />
+                    ) : isActive ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      step.icon
                     )}
                   </div>
-                )
-              })}
-            </div>
-          </>
+
+                  {/* Step text */}
+                  <div className="flex flex-col flex-1 min-w-0">
+                    <span className={`text-xs transition-colors duration-300 ${
+                      isActive  ? 'text-white font-medium'
+                      : isDoneStep ? 'text-green-400/80'
+                      : 'text-white/25'
+                    }`}>
+                      {step.label}
+                    </span>
+                    {isActive && (
+                      <div className="mt-1.5 h-1 rounded-full bg-white/[0.06] overflow-hidden">
+                        <div className="h-full rounded-full bg-gradient-to-r from-[#b066ff] to-[#6699ff] animate-[shimmer_2s_ease-in-out_infinite] w-2/3" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Status badge */}
+                  {isActive && (
+                    <span className="text-[10px] text-[#b066ff] font-medium">Running</span>
+                  )}
+                  {isDoneStep && isPending === false && i < currentStepIndex && (
+                    <span className="text-[10px] text-green-400/60">Done</span>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Success state */}
+        {isDone && (
+          <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-green-500/[0.08] border border-green-500/25">
+            <Check className="w-4 h-4 text-green-400" />
+            <span className="text-xs text-green-400 font-medium">Avatar generated successfully</span>
+          </div>
         )}
 
+        {/* Error state */}
         {status === 'error' && errorMessage && (
-          <Alert variant="destructive" className="border-red-500/30 bg-red-500/10">
+          <Alert variant="destructive" className="border-red-500/30 bg-red-500/[0.08]">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription className="text-red-400 text-xs">{errorMessage}</AlertDescription>
           </Alert>
         )}
       </CardContent>
 
-      <CardFooter className="border-t border-[#b066ff]/12 py-4">
+      <CardFooter className="border-t border-[#b066ff]/20 py-4 px-5">
         <WebcamToggle />
       </CardFooter>
     </Card>

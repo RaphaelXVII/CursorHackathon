@@ -1,0 +1,84 @@
+<h2>How much should we change?</h2>
+<p class="subtitle">All three keep the dark purple theme and use shadcn. Pick your scope.</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d0d1a;padding:14px;border-radius:8px;font-family:sans-serif;min-height:160px;">
+      <!-- Minimal: just swap components -->
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+        <div style="width:6px;height:6px;border-radius:50%;background:#b066ff;box-shadow:0 0 8px #b066ff;flex-shrink:0;"></div>
+        <span style="color:#b066ff;font-size:9px;font-weight:700;letter-spacing:0.15em;">PROMPTTUBER</span>
+      </div>
+      <div style="border:1px solid rgba(176,102,255,0.3);border-radius:8px;overflow:hidden;margin-bottom:8px;">
+        <div style="padding:8px 10px;background:rgba(176,102,255,0.05);">
+          <div style="color:rgba(255,255,255,0.45);font-size:8px;margin-bottom:4px;letter-spacing:0.08em;">DESCRIBE YOUR CHARACTER</div>
+          <div style="color:rgba(255,255,255,0.2);font-size:9px;font-style:italic;">anime girl with silver hair…</div>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,#b066ff,#6699ff);border-radius:6px;padding:6px;text-align:center;color:white;font-size:9px;font-weight:700;letter-spacing:0.12em;">GENERATE</div>
+      <div style="margin-top:6px;color:rgba(255,255,255,0.2);font-size:8px;text-align:center;">Same layout · shadcn Button + Textarea</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Component swap only</h3>
+      <p>Install shadcn, configure the purple theme, swap Button and Textarea. Layout unchanged. Low risk, quick to do.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d0d1a;padding:14px;border-radius:8px;font-family:sans-serif;min-height:160px;">
+      <!-- Recommended: full sidebar polish -->
+      <div style="border:1px solid rgba(176,102,255,0.18);border-radius:10px;background:rgba(176,102,255,0.04);padding:10px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(176,102,255,0.12);">
+          <div style="width:6px;height:6px;border-radius:50%;background:#b066ff;box-shadow:0 0 8px #b066ff;flex-shrink:0;"></div>
+          <span style="color:#b066ff;font-size:9px;font-weight:700;letter-spacing:0.15em;">PROMPTTUBER</span>
+        </div>
+        <div style="color:rgba(255,255,255,0.5);font-size:8px;font-weight:500;margin-bottom:4px;">Character prompt</div>
+        <div style="border:1px solid rgba(176,102,255,0.25);border-radius:6px;background:rgba(255,255,255,0.03);padding:6px 8px;min-height:28px;margin-bottom:7px;">
+          <div style="color:rgba(255,255,255,0.18);font-size:9px;font-style:italic;">anime girl with silver hair…</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#b066ff,#6699ff);border-radius:6px;padding:6px;text-align:center;color:white;font-size:9px;font-weight:600;margin-bottom:7px;">Generate</div>
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <div style="border:1px solid rgba(176,102,255,0.4);background:rgba(176,102,255,0.1);border-radius:5px;padding:4px 7px;color:white;font-size:8px;display:flex;align-items:center;gap:5px;">
+            <div style="width:4px;height:4px;border-radius:50%;background:#b066ff;box-shadow:0 0 4px #b066ff;"></div> Decomposing…
+          </div>
+          <div style="border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);border-radius:5px;padding:4px 7px;color:rgba(255,255,255,0.25);font-size:8px;display:flex;align-items:center;gap:5px;">
+            <div style="width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.1);"></div> Generating layers
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Sidebar polish <span style="color:#a78bfa;font-size:11px;">(recommended)</span></h3>
+      <p>Everything in A, plus: shadcn Card wraps the sidebar, better label/input hierarchy, a Separator under the header, shadcn Badge for status, Alert for errors. Looks intentional, not raw Tailwind.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d0d1a;padding:0;border-radius:8px;font-family:sans-serif;min-height:160px;overflow:hidden;">
+      <!-- Layout change: top bar -->
+      <div style="background:rgba(176,102,255,0.08);border-bottom:1px solid rgba(176,102,255,0.18);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:5px;">
+          <div style="width:5px;height:5px;border-radius:50%;background:#b066ff;box-shadow:0 0 6px #b066ff;"></div>
+          <span style="color:#b066ff;font-size:9px;font-weight:700;letter-spacing:0.12em;">PROMPTTUBER</span>
+        </div>
+        <div style="border:1px solid rgba(176,102,255,0.3);border-radius:20px;padding:3px 8px;color:rgba(176,102,255,0.7);font-size:8px;">Enable Tracking</div>
+      </div>
+      <div style="display:flex;height:120px;">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:rgba(255,255,255,0.1);font-size:9px;">Live2D Canvas</div>
+        </div>
+        <div style="width:1px;background:rgba(176,102,255,0.12);"></div>
+        <div style="width:100px;padding:8px;display:flex;flex-direction:column;gap:5px;">
+          <div style="border:1px solid rgba(176,102,255,0.25);border-radius:5px;background:rgba(255,255,255,0.03);padding:5px;min-height:30px;"></div>
+          <div style="background:linear-gradient(135deg,#b066ff,#6699ff);border-radius:5px;padding:4px;text-align:center;color:white;font-size:8px;font-weight:600;">Generate</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — New layout</h3>
+      <p>Move the branding/tracking to a top bar, put the sidebar on the right, give the canvas more breathing room. More visual hierarchy but requires layout work.</p>
+    </div>
+  </div>
+
+</div>

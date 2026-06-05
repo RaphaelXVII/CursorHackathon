@@ -1,0 +1,141 @@
+<h2>Design: Sidebar Polish with shadcn</h2>
+<p class="subtitle">Full-size mockup of the redesigned sidebar. Same layout, proper components.</p>
+
+<div class="mockup" style="max-width:340px;margin:0 auto;">
+  <div class="mockup-header">PromptTuber — Left Sidebar (320px)</div>
+  <div class="mockup-body" style="padding:0;background:#0d0d1a;border-radius:0 0 8px 8px;overflow:hidden;">
+
+    <!-- shadcn Card wrapping the entire sidebar -->
+    <div style="
+      height:100%;
+      display:flex;flex-direction:column;
+      background:rgba(176,102,255,0.04);
+      border-right:1px solid rgba(176,102,255,0.15);
+      font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;
+    ">
+
+      <!-- Card Header -->
+      <div style="padding:20px 20px 16px;border-bottom:1px solid rgba(176,102,255,0.12);">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#b066ff;box-shadow:0 0 10px #b066ff;flex-shrink:0;"></div>
+          <span style="color:#b066ff;font-size:11px;font-weight:700;letter-spacing:0.18em;">PROMPTTUBER</span>
+        </div>
+        <p style="color:rgba(255,255,255,0.35);font-size:11px;margin:6px 0 0 16px;line-height:1.4;">Generate a Live2D VTuber from a text prompt</p>
+      </div>
+
+      <!-- Card Content -->
+      <div style="padding:20px;display:flex;flex-direction:column;gap:16px;flex:1;">
+
+        <!-- Label + Textarea (shadcn Label + Textarea) -->
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;letter-spacing:0.02em;">Character prompt</label>
+          <div style="
+            border:1px solid rgba(176,102,255,0.25);border-radius:8px;
+            background:rgba(255,255,255,0.03);
+            padding:10px 12px;min-height:96px;
+            font-size:13px;color:rgba(255,255,255,0.2);font-style:italic;
+            line-height:1.5;
+            transition:border-color 0.2s;
+          ">anime girl with silver hair, fox ears, red hoodie…</div>
+          <p style="color:rgba(255,255,255,0.2);font-size:11px;">Be specific — style, colors, features.</p>
+        </div>
+
+        <!-- shadcn Button (gradient) -->
+        <button style="
+          width:100%;padding:10px;border-radius:8px;border:none;cursor:pointer;
+          background:linear-gradient(135deg,#b066ff,#6699ff);
+          color:white;font-size:13px;font-weight:600;letter-spacing:0.04em;
+          box-shadow:0 0 0 0 rgba(176,102,255,0);
+          transition:box-shadow 0.2s,opacity 0.2s;
+        ">Generate avatar</button>
+
+        <!-- Separator -->
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:0 -4px;"></div>
+
+        <!-- Generation steps — shown while generating -->
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <span style="color:rgba(255,255,255,0.3);font-size:11px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;">Progress</span>
+
+          <!-- Step: active -->
+          <div style="
+            display:flex;align-items:center;gap:10px;
+            padding:9px 12px;border-radius:8px;
+            border:1px solid rgba(176,102,255,0.4);
+            background:rgba(176,102,255,0.1);
+          ">
+            <div style="width:6px;height:6px;border-radius:50%;background:#b066ff;box-shadow:0 0 6px #b066ff;flex-shrink:0;"></div>
+            <span style="color:white;font-size:12px;font-weight:500;">Decomposing prompt</span>
+            <!-- shadcn Badge -->
+            <span style="margin-left:auto;padding:2px 7px;border-radius:999px;background:rgba(176,102,255,0.2);color:#b066ff;font-size:10px;font-weight:600;">Active</span>
+          </div>
+
+          <!-- Step: pending -->
+          <div style="
+            display:flex;align-items:center;gap:10px;
+            padding:9px 12px;border-radius:8px;
+            border:1px solid rgba(255,255,255,0.06);
+            background:rgba(255,255,255,0.02);
+          ">
+            <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.12);flex-shrink:0;"></div>
+            <span style="color:rgba(255,255,255,0.25);font-size:12px;">Generating layers</span>
+          </div>
+
+          <!-- Step: pending -->
+          <div style="
+            display:flex;align-items:center;gap:10px;
+            padding:9px 12px;border-radius:8px;
+            border:1px solid rgba(255,255,255,0.06);
+            background:rgba(255,255,255,0.02);
+          ">
+            <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.12);flex-shrink:0;"></div>
+            <span style="color:rgba(255,255,255,0.25);font-size:12px;">Assembling model</span>
+          </div>
+        </div>
+
+        <!-- Error state (shadcn Alert, destructive) — shown on error -->
+        <div style="
+          display:flex;gap:10px;align-items:flex-start;
+          padding:10px 12px;border-radius:8px;
+          border:1px solid rgba(239,68,68,0.3);
+          background:rgba(239,68,68,0.08);
+        ">
+          <span style="color:#f87171;font-size:14px;flex-shrink:0;margin-top:1px;">⚠</span>
+          <div>
+            <p style="color:#f87171;font-size:12px;font-weight:600;margin:0 0 2px;">Generation failed</p>
+            <p style="color:rgba(248,113,113,0.7);font-size:11px;margin:0;">Could not reach backend — is it running on port 8000?</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Card Footer — webcam toggle -->
+      <div style="padding:16px 20px;border-top:1px solid rgba(176,102,255,0.12);">
+        <!-- shadcn Button outline variant, full width -->
+        <button style="
+          width:100%;padding:9px;border-radius:8px;cursor:pointer;
+          border:1px solid rgba(176,102,255,0.4);
+          background:rgba(176,102,255,0.07);
+          color:#b066ff;font-size:12px;font-weight:600;
+          display:flex;align-items:center;justify-content:center;gap:8px;
+        ">
+          <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;flex-shrink:0;"></span>
+          Face tracking on
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="section" style="max-width:340px;margin:20px auto 0;">
+  <h3>shadcn components used</h3>
+  <ul style="color:rgba(255,255,255,0.6);font-size:13px;line-height:1.8;padding-left:20px;">
+    <li><strong style="color:white;">Card</strong> — sidebar container with Header, Content, Footer</li>
+    <li><strong style="color:white;">Label + Textarea</strong> — prompt input with hint text</li>
+    <li><strong style="color:white;">Button</strong> — Generate (gradient) + WebcamToggle (outline)</li>
+    <li><strong style="color:white;">Badge</strong> — "Active" indicator on current step</li>
+    <li><strong style="color:white;">Alert</strong> — error state (destructive variant)</li>
+    <li><strong style="color:white;">Separator</strong> — divider between input and progress</li>
+  </ul>
+  <p style="color:rgba(255,255,255,0.3);font-size:12px;margin-top:8px;">All themed to match the existing #b066ff purple palette via shadcn CSS variables.</p>
+</div>
