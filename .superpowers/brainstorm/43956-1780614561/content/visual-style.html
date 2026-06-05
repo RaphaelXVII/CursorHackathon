@@ -1,0 +1,70 @@
+<h2>What visual vibe should PromptTuber have?</h2>
+<p class="subtitle">This sets the tone for the whole UI — colors, fonts, overall feel</p>
+
+<div class="cards">
+  <div class="card" data-choice="dark-vtuber" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: linear-gradient(135deg, #0d0d1a 0%, #1a0d2e 50%, #0d1a2e 100%); padding: 24px; border-radius: 8px; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div style="display:flex; gap: 8px; align-items: center;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #b066ff; box-shadow: 0 0 8px #b066ff;"></div>
+        <span style="color: #b066ff; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">PromptTuber</span>
+      </div>
+      <div style="background: rgba(176,102,255,0.1); border: 1px solid rgba(176,102,255,0.3); border-radius: 8px; padding: 12px; margin-top: 12px;">
+        <div style="color: #ccc; font-size: 11px; margin-bottom: 6px;">Describe your character</div>
+        <div style="background: rgba(255,255,255,0.05); border-radius: 4px; height: 28px; display: flex; align-items: center; padding: 0 10px;">
+          <span style="color: rgba(176,102,255,0.6); font-size: 10px;">anime girl with fox ears...</span>
+        </div>
+      </div>
+      <div style="background: linear-gradient(90deg, #b066ff, #6699ff); border-radius: 20px; height: 28px; display: flex; align-items: center; justify-content: center; margin-top: 8px;">
+        <span style="color: white; font-size: 10px; font-weight: 600; letter-spacing: 1px;">GENERATE</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Dark VTuber Aesthetic</h3>
+      <p>Deep purples, blues, neon accents — feels like a streaming overlay. Immersive and on-brand for VTuber culture.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="clean-minimal" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #f8f8fc; padding: 24px; border-radius: 8px; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #e0e0e8;">
+      <div style="display:flex; gap: 8px; align-items: center;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #7c5cbf;"></div>
+        <span style="color: #7c5cbf; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;">PromptTuber</span>
+      </div>
+      <div style="margin-top: 12px;">
+        <div style="color: #555; font-size: 11px; margin-bottom: 6px;">Describe your character</div>
+        <div style="background: white; border: 1px solid #d0d0e0; border-radius: 6px; height: 28px; display: flex; align-items: center; padding: 0 10px;">
+          <span style="color: #bbb; font-size: 10px;">anime girl with fox ears...</span>
+        </div>
+      </div>
+      <div style="background: #7c5cbf; border-radius: 6px; height: 28px; display: flex; align-items: center; justify-content: center; margin-top: 8px;">
+        <span style="color: white; font-size: 10px; font-weight: 600;">Generate Avatar</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Clean & Minimal</h3>
+      <p>Light backgrounds, subtle purple brand color — looks more like a polished tool. Easy to demo and screenshot.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="dark-minimal" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #111116; padding: 24px; border-radius: 8px; min-height: 140px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div style="display:flex; gap: 8px; align-items: center;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #fff;"></div>
+        <span style="color: #fff; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;">PromptTuber</span>
+      </div>
+      <div style="margin-top: 12px;">
+        <div style="color: #888; font-size: 11px; margin-bottom: 6px;">Describe your character</div>
+        <div style="background: #1c1c22; border: 1px solid #333; border-radius: 6px; height: 28px; display: flex; align-items: center; padding: 0 10px;">
+          <span style="color: #444; font-size: 10px;">anime girl with fox ears...</span>
+        </div>
+      </div>
+      <div style="background: #fff; border-radius: 6px; height: 28px; display: flex; align-items: center; justify-content: center; margin-top: 8px;">
+        <span style="color: #111; font-size: 10px; font-weight: 700;">Generate</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Dark & Minimal</h3>
+      <p>Near-black background, white text, no neon — sleek and modern. The avatar canvas pops without competing colors.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<h2>What should happen while the avatar generates?</h2>
+<p class="subtitle">Generation takes ~20-40 seconds — this is prime demo time</p>
+
+<div class="cards">
+  <div class="card" data-choice="steps" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #0d0d1a; border-radius: 8px; padding: 16px; min-height: 160px; display: flex; flex-direction: column; gap: 10px; justify-content: center;">
+      <div style="color: rgba(176,102,255,0.9); font-size: 10px; letter-spacing: 2px; text-align: center; margin-bottom: 4px;">GENERATING YOUR AVATAR</div>
+      <div style="display: flex; flex-direction: column; gap: 7px;">
+        <div style="display: flex; align-items: center; gap: 8px; background: rgba(176,102,255,0.15); border: 1px solid rgba(176,102,255,0.4); border-radius: 5px; padding: 7px 10px;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: #b066ff; box-shadow: 0 0 6px #b066ff; flex-shrink: 0;"></div>
+          <span style="color: #ccc; font-size: 9px;">Decomposing prompt with Claude...</span>
+          <div style="margin-left: auto; width: 40px; height: 3px; background: rgba(176,102,255,0.3); border-radius: 2px; overflow: hidden;">
+            <div style="width: 100%; height: 100%; background: #b066ff; border-radius: 2px;"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 7px 10px; opacity: 0.5;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); flex-shrink: 0;"></div>
+          <span style="color: #666; font-size: 9px;">Generating character layers...</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 7px 10px; opacity: 0.5;">
+          <div style="width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); flex-shrink: 0;"></div>
+          <span style="color: #666; font-size: 9px;">Assembling Live2D model...</span>
+        </div>
+      </div>
+      <div style="color: rgba(102,153,255,0.6); font-size: 8px; text-align: center; margin-top: 4px; font-style: italic;">"silver hair, fox ears, red hoodie"</div>
+    </div>
+    <div class="card-body">
+      <h3>A — Step-by-step progress</h3>
+      <p>Shows each pipeline stage (Claude → Stability → Assemble) lighting up as it runs. Great for demos.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="spinner" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #0d0d1a; border-radius: 8px; padding: 16px; min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+      <div style="width: 48px; height: 48px; border-radius: 50%; border: 3px solid rgba(176,102,255,0.2); border-top-color: #b066ff; box-shadow: 0 0 12px rgba(176,102,255,0.3);"></div>
+      <div style="text-align: center;">
+        <div style="color: #ccc; font-size: 10px; letter-spacing: 1px;">Generating your avatar</div>
+        <div style="color: rgba(176,102,255,0.6); font-size: 9px; margin-top: 4px;">This may take a moment...</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Simple spinner</h3>
+      <p>Clean and uncluttered. Doesn't expose pipeline internals. Fast to build.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="preview" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #0d0d1a; border-radius: 8px; padding: 12px; min-height: 160px; display: flex; flex-direction: column; gap: 8px; justify-content: center;">
+      <div style="color: rgba(176,102,255,0.9); font-size: 9px; letter-spacing: 2px; text-align: center;">BUILDING YOUR CHARACTER</div>
+      <div style="display: flex; gap: 6px; justify-content: center;">
+        <div style="width: 32px; border: 1px solid rgba(176,102,255,0.3); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 4px; gap: 2px; background: rgba(176,102,255,0.05);">
+          <div style="width: 22px; height: 22px; border-radius: 3px; background: rgba(176,102,255,0.2);"></div>
+          <span style="color: rgba(176,102,255,0.5); font-size: 6px;">face</span>
+        </div>
+        <div style="width: 32px; border: 1px solid rgba(176,102,255,0.3); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 4px; gap: 2px; background: rgba(176,102,255,0.05);">
+          <div style="width: 22px; height: 22px; border-radius: 3px; background: rgba(102,153,255,0.25); background-image: repeating-linear-gradient(45deg, rgba(176,102,255,0.3) 0 2px, transparent 0 6px);"></div>
+          <span style="color: rgba(102,153,255,0.5); font-size: 6px;">eyes</span>
+        </div>
+        <div style="width: 32px; border: 1px solid rgba(176,102,255,0.3); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 4px; gap: 2px; background: rgba(176,102,255,0.05);">
+          <div style="width: 22px; height: 22px; border-radius: 3px; background: rgba(255,255,255,0.1);"></div>
+          <span style="color: rgba(255,255,255,0.3); font-size: 6px;">hair</span>
+        </div>
+        <div style="width: 32px; border: 1px solid rgba(176,102,255,0.15); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 4px; gap: 2px; background: rgba(255,255,255,0.02); opacity: 0.4;">
+          <div style="width: 22px; height: 22px; border-radius: 3px; background: rgba(255,255,255,0.05);"></div>
+          <span style="color: rgba(255,255,255,0.2); font-size: 6px;">outfit</span>
+        </div>
+      </div>
+      <div style="height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; margin: 0 8px;">
+        <div style="width: 55%; height: 100%; background: linear-gradient(90deg, #b066ff, #6699ff); border-radius: 2px;"></div>
+      </div>
+      <div style="color: rgba(176,102,255,0.5); font-size: 8px; text-align: center;">Generating layer 3 of 6...</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Layer-by-layer reveal</h3>
+      <p>Previews each generated layer (face, eyes, hair…) as they complete. Most impressive for demos but harder to implement.</p>
+    </div>
+  </div>
+</div>
