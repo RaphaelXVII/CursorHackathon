@@ -110,6 +110,16 @@ export default function PromptInput() {
           )}
         </Button>
 
+        {/* Preview template button */}
+        <Button
+          variant="outline"
+          onClick={() => setModelUrl('/models/template/model.model3.json')}
+          disabled={isGenerating}
+          className="w-full h-9 border-white/20 bg-white/5 text-white/60 hover:border-[#b066ff]/40 hover:text-white/80 text-sm"
+        >
+          Preview template model
+        </Button>
+
         {/* Pipeline steps — always visible */}
         <div className="flex flex-col gap-1 mt-1">
           <span className="text-[10px] text-white/30 font-medium tracking-wider uppercase mb-2">Pipeline</span>

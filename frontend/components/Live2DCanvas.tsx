@@ -7,7 +7,6 @@ export default function Live2DCanvas() {
   const appRef       = useRef<any>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const modelRef     = useRef<any>(null)
-  // Ref keeps latest params available to the ticker without re-registering it
   const paramsRef    = useRef<Record<string, number>>({})
 
   const modelUrl = useStore((s) => s.modelUrl)
@@ -15,7 +14,6 @@ export default function Live2DCanvas() {
 
   useEffect(() => { paramsRef.current = params }, [params])
 
-  // Init Pixi once on mount
   useEffect(() => {
     if (!containerRef.current) return
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,19 +21,36 @@ export default function Live2DCanvas() {
     let cancelled = false
 
     async function init() {
-      const PIXI           = await import('pixi.js')
+      const PIXI = await import('pixi.js')
       if (cancelled) return
-      const { Live2DModel } = await import('pixi-live2d-display')
+      await import('pixi-live2d-display/cubism4')
       if (cancelled) return
 
-      app = new PIXI.Application({
-        resizeTo: containerRef.current!,
+      const container = containerRef.current!
+      const { width, height } = container.getBoundingClientRect()
+
+      const opts = {
+        width: width || 800,
+        height: height || 600,
         backgroundAlpha: 0,
         antialias: true,
-      })
+      }
+
+      try {
+        app = new PIXI.Application(opts)
+      } catch {
+        app = new PIXI.Application({ ...opts, forceCanvas: true })
+      }
       if (cancelled) { app.destroy(true); return }
-      containerRef.current!.appendChild(app.view as HTMLCanvasElement)
+      container.appendChild(app.view as HTMLCanvasElement)
       appRef.current = app
+
+      const resizeObserver = new ResizeObserver(() => {
+        if (!app) return
+        const { width: w, height: h } = container.getBoundingClientRect()
+        app.renderer.resize(w, h)
+      })
+      resizeObserver.observe(container)
 
       app.ticker.add(() => {
         const model = modelRef.current
@@ -51,19 +66,18 @@ export default function Live2DCanvas() {
 
     return () => {
       cancelled = true
-      app?.destroy(true)
+      app?.destroy(true, { children: true })
       appRef.current  = null
       modelRef.current = null
     }
   }, [])
 
-  // Reload model when modelUrl changes
   useEffect(() => {
     if (!appRef.current || !modelUrl) return
     const app = appRef.current
 
     async function loadModel() {
-      const { Live2DModel } = await import('pixi-live2d-display')
+      const { Live2DModel } = await import('pixi-live2d-display/cubism4')
 
       if (modelRef.current) {
         app.stage.removeChild(modelRef.current)
@@ -76,9 +90,9 @@ export default function Live2DCanvas() {
       model.x = width / 2
       model.y = height / 2
       model.anchor.set(0.5, 0.5)
-      model.scale.set(
-        (Math.min(width, height) / model.internalModel.originalWidth) * 0.8
-      )
+      const scaleX = width / model.internalModel.originalWidth
+      const scaleY = height / model.internalModel.originalHeight
+      model.scale.set(Math.min(scaleX, scaleY) * 0.8)
       app.stage.addChild(model)
       modelRef.current = model
     }

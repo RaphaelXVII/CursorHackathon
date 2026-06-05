@@ -1,5 +1,5 @@
 'use client'
-import { trackingSocket } from '@/lib/websocket'
+import { getFaceTracker } from '@/lib/faceTracker'
 import { useStore } from '@/lib/store'
 import { Button } from '@/components/ui/button'
 
@@ -8,10 +8,11 @@ export default function WebcamToggle() {
   const isConnected = useStore((s) => s.isConnected)
 
   const handleToggle = () => {
+    const tracker = getFaceTracker()
     if (isActive) {
-      trackingSocket.disconnect()
+      tracker.stop()
     } else {
-      trackingSocket.connect()
+      tracker.start()
     }
   }
 
@@ -32,7 +33,7 @@ export default function WebcamToggle() {
           ? 'bg-yellow-400 animate-pulse'
           : 'bg-white/20'
       }`} />
-      {isActive ? (isConnected ? 'Tracking on' : 'Reconnecting…') : 'Enable tracking'}
+      {isActive ? (isConnected ? 'Tracking on' : 'Starting camera…') : 'Enable face tracking'}
     </Button>
   )
 }
