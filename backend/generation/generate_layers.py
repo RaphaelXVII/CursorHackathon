@@ -39,25 +39,59 @@ def create_placeholder_masks(templates_dir: str):
             print(f"Created mask: {path}")
 
 
+_SHARED_TAIL = "anime, cel-shaded, clean linework, plain white background, isolated element"
+_SHARED_NEG_TAIL = "blurry, low quality, extra limbs, deformed, watermark"
+
+_LAYER_TEMPLATES = {
+    "base_face": {
+        "pos": "close-up face portrait, soft skin texture, forward-facing, no hair, no neck",
+        "neg": "hair, body, clothing, background, side profile",
+    },
+    "left_eye": {
+        "pos": "close-up eye detail, iris texture, catchlight, single eye, no face context",
+        "neg": "face, nose, mouth, multiple eyes, body",
+    },
+    "right_eye": {
+        "pos": "close-up eye detail, iris texture, catchlight, single eye, no face context",
+        "neg": "face, nose, mouth, multiple eyes, body",
+    },
+    "hair_back": {
+        "pos": "back hair layers, strand flow, volume, no face, no front strands",
+        "neg": "face, front bangs, body, clothing, background",
+    },
+    "hair_front": {
+        "pos": "front bangs, forehead framing strands, hair highlight, no face visible",
+        "neg": "face, eyes, body, back hair layers, background",
+    },
+    "mouth": {
+        "pos": "close-up mouth detail, lip texture, subtle expression, no nose, no eyes",
+        "neg": "nose, eyes, face, body, background",
+    },
+    "outfit": {
+        "pos": "upper body garment, fabric detail, collar, no face, no hands, no background",
+        "neg": "face, hands, skin, background scenery, full body",
+    },
+}
+
+_ACCESSORY_TEMPLATE = {
+    "pos": "isolated single accessory item, no character, no body, no face",
+    "neg": "character body, face, torso, background, multiple items",
+}
+
+_GENERIC_TEMPLATE = {
+    "pos": "anime VTuber character part, isolated element",
+    "neg": "background scenery, multiple characters, full body",
+}
+
+
 def _build_prompt(layer_name: str, style: str, description: str) -> tuple[str, str]:
     if layer_name.startswith("accessory_"):
-        prompt = (
-            f"{style}, {description}, "
-            f"isolated anime VTuber accessory only, single item, "
-            f"no character body, no face, plain white background, clean edges"
-        )
-        negative_prompt = (
-            "full character, body, face, torso, background scenery, "
-            "multiple items, blurry, low quality"
-        )
+        tmpl = _ACCESSORY_TEMPLATE
     else:
-        prompt = (
-            f"{style}, {description}, "
-            f"anime VTuber character part, isolated element, "
-            f"plain white background, clean edges, no scenery"
-        )
-        negative_prompt = "background scenery, multiple characters, full body, blurry, low quality"
+        tmpl = _LAYER_TEMPLATES.get(layer_name, _GENERIC_TEMPLATE)
 
+    prompt = f"{style}, {description}, {tmpl['pos']}, {_SHARED_TAIL}"
+    negative_prompt = f"{tmpl['neg']}, {_SHARED_NEG_TAIL}"
     return prompt, negative_prompt
 
 
