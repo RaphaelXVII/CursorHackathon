@@ -17,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={cn("dark font-sans", geist.variable)}>
       <body className={inter.className}>
+        <Script src="/live2d.min.js" strategy="beforeInteractive" />
         <Script src="/live2dcubismcore.min.js" strategy="beforeInteractive" />
         {children}
       </body>
