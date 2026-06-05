@@ -11,7 +11,7 @@ const Live2DCanvas = dynamic(
 export default function Page() {
   return (
     <main className="flex h-screen">
-      <aside className="w-80 flex-shrink-0 border-r border-[#b066ff]/20 flex flex-col">
+      <aside className="w-80 flex-shrink-0 flex flex-col">
         <PromptInput />
       </aside>
       <section className="flex-1 relative">

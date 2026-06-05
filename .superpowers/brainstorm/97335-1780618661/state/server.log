@@ -1,0 +1,6 @@
+{"type":"server-started","port":62321,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:62321","screen_dir":"/Users/jameslam/Documents/Hackathon/CursorHackathon/.superpowers/brainstorm/97335-1780618661/content","state_dir":"/Users/jameslam/Documents/Hackathon/CursorHackathon/.superpowers/brainstorm/97335-1780618661/state"}
+{"type":"screen-added","file":"/Users/jameslam/Documents/Hackathon/CursorHackathon/.superpowers/brainstorm/97335-1780618661/content/visual-direction.html"}
+{"type":"screen-added","file":"/Users/jameslam/Documents/Hackathon/CursorHackathon/.superpowers/brainstorm/97335-1780618661/content/waiting-1.html"}
+{"type":"screen-added","file":"/Users/jameslam/Documents/Hackathon/CursorHackathon/.superpowers/brainstorm/97335-1780618661/content/approaches.html"}
+{"type":"screen-added","file":"/Users/jameslam/Documents/Hackathon/CursorHackathon/.superpowers/brainstorm/97335-1780618661/content/design-b.html"}
+{"type":"server-stopped","reason":"idle timeout"}
