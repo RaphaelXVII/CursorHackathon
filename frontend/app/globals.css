@@ -138,3 +138,12 @@ html, body {
     @apply font-sans;
   }
 }
+
+/* Purple palette override — keeps shadcn components on-brand */
+.dark {
+  --primary: oklch(0.677 0.215 294);        /* #b066ff */
+  --primary-foreground: oklch(1 0 0);        /* white */
+  --ring: oklch(0.677 0.215 294);            /* #b066ff */
+  --background: oklch(0.083 0.018 277);      /* #0d0d1a */
+  --card: oklch(0.095 0.018 277);            /* slightly lighter than bg */
+}
