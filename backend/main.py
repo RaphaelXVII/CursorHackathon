@@ -95,6 +95,7 @@ def generate(body: GenerateRequest):
     run_id = uuid.uuid4().hex[:8]
     run_dir = OUTPUT_DIR / run_id
     layers_dir = run_dir / "layers"
+    
     layers_dir.mkdir(parents=True, exist_ok=True)
 
     try:

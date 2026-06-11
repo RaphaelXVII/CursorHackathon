@@ -110,15 +110,26 @@ export default function PromptInput() {
           )}
         </Button>
 
-        {/* Preview template button */}
-        <Button
-          variant="outline"
-          onClick={() => setModelUrl('/models/template/model.model3.json')}
-          disabled={isGenerating}
-          className="w-full h-9 border-white/20 bg-white/5 text-white/60 hover:border-[#b066ff]/40 hover:text-white/80 text-sm"
-        >
-          Preview template model
-        </Button>
+        {/* Preview model buttons */}
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { label: 'Haru', url: '/models/template/model.model3.json' },
+            { label: 'Hiyori', url: '/models/hiyori/Hiyori.model3.json' },
+            { label: 'Natori', url: '/models/natori/Natori.model3.json' },
+            { label: 'Mao', url: '/models/mao/Mao.model3.json' },
+            { label: 'Ren', url: '/models/ren/Ren.model3.json' },
+          ].map(({ label, url }) => (
+            <Button
+              key={label}
+              variant="outline"
+              onClick={() => setModelUrl(url)}
+              disabled={isGenerating}
+              className="h-9 border-white/20 bg-white/5 text-white/60 hover:border-[#b066ff]/40 hover:text-white/80 text-sm"
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
 
         {/* Pipeline steps — always visible */}
         <div className="flex flex-col gap-1 mt-1">

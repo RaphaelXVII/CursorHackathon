@@ -5,8 +5,8 @@ import { render, screen } from '@testing-library/react'
 import { useStore } from '@/lib/store'
 import WebcamToggle from '@/components/WebcamToggle'
 
-jest.mock('@/lib/websocket', () => ({
-  trackingSocket: { connect: jest.fn(), disconnect: jest.fn() },
+jest.mock('@/lib/faceTracker', () => ({
+  getFaceTracker: () => ({ start: jest.fn(), stop: jest.fn() }),
 }))
 
 const initialState = {
@@ -25,7 +25,7 @@ beforeEach(() => {
 describe('WebcamToggle', () => {
   it('renders an enable tracking button when inactive', () => {
     render(<WebcamToggle />)
-    expect(screen.getByRole('button', { name: /enable tracking/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /enable face tracking/i })).toBeInTheDocument()
   })
 
   it('shows "Tracking on" when active and connected', () => {

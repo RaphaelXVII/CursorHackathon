@@ -51,15 +51,6 @@ export default function Live2DCanvas() {
         app.renderer.resize(w, h)
       })
       resizeObserver.observe(container)
-
-      app.ticker.add(() => {
-        const model = modelRef.current
-        if (!model) return
-        Object.entries(paramsRef.current).forEach(([id, value]) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ;(model.internalModel.coreModel as any).setParameterValueById(id, value)
-        })
-      })
     }
 
     init()
@@ -85,14 +76,87 @@ export default function Live2DCanvas() {
         modelRef.current = null
       }
 
-      const model = await Live2DModel.from(modelUrl!, { ticker: app.ticker })
+      // autoFocus would make the head follow the mouse, fighting webcam tracking
+      const model = await Live2DModel.from(modelUrl!, {
+        ticker: app.ticker,
+        autoFocus: false,
+        autoHitTest: false,
+      })
+
+      // Disable auto eye-blink: it overwrites ParamEyeLOpen/ROpen every frame
+      model.internalModel.eyeBlink = undefined
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const coreModel = model.internalModel.coreModel as any
+
+      // Arm tracking emits Haru-style values (ParamArmLA/RA, -10..10). Different
+      // rigs name/segment their arms differently (e.g. Natori uses ParamArmAL01..),
+      // so remap onto whichever of these params the model actually has, scaled to
+      // each param's own range.
+      // `invert` flips min/max for rigs whose arm params run opposite to Haru's.
+      // Naming schemes: Haru/Hiyori (ParamArmLA), Natori (ParamArmAL01..),
+      // Mao (ParamArmLA01..), Ren (ParamArmL01..)
+      const ARM_CANDIDATES: Record<string, { id: string; invert?: boolean }[]> = {
+        ParamArmLA: [
+          { id: 'ParamArmLA' },
+          { id: 'ParamArmAL01', invert: true },
+          { id: 'ParamArmAL02', invert: true },
+          { id: 'ParamArmLA01' },
+          { id: 'ParamArmLA02' },
+          { id: 'ParamArmL01' },
+          { id: 'ParamArmL02' },
+        ],
+        ParamArmRA: [
+          { id: 'ParamArmRA' },
+          { id: 'ParamArmAR01', invert: true },
+          { id: 'ParamArmAR02', invert: true },
+          { id: 'ParamArmRA01' },
+          { id: 'ParamArmRA02' },
+          { id: 'ParamArmR01' },
+          { id: 'ParamArmR02' },
+        ],
+      }
+      const raw = coreModel._model
+      const ids: string[] = Array.from(raw?.parameters?.ids ?? [])
+      const mins: number[] = Array.from(raw?.parameters?.minimumValues ?? [])
+      const maxs: number[] = Array.from(raw?.parameters?.maximumValues ?? [])
+      const armTargets: Record<string, { id: string; min: number; max: number; invert: boolean }[]> = {}
+      Object.entries(ARM_CANDIDATES).forEach(([source, candidates]) => {
+        armTargets[source] = candidates.flatMap(({ id, invert }) => {
+          const i = ids.indexOf(id)
+          return i === -1 ? [] : [{ id, min: mins[i], max: maxs[i], invert: invert ?? false }]
+        })
+      })
+
+      // Apply tracking params after the motion update but before physics,
+      // so they aren't overwritten and physics (hair sway) reacts to them
+      model.internalModel.on('afterMotionUpdate', () => {
+        Object.entries(paramsRef.current).forEach(([id, value]) => {
+          const targets = armTargets[id]
+          if (targets && targets.length > 0) {
+            const t = (value + 10) / 20
+            targets.forEach(({ id: targetId, min, max, invert }) => {
+              const tt = invert ? 1 - t : t
+              coreModel.setParameterValueById(targetId, min + tt * (max - min))
+            })
+          } else {
+            coreModel.setParameterValueById(id, value)
+          }
+        })
+      })
+
+      // Framing: zoom past "fit to screen" and shift the model's center down
+      // so the view focuses on head and torso
+      const SCALE_MULT = 1.7
+      const Y_FACTOR = 0.85
+
       const { width, height } = app.screen
       model.x = width / 2
-      model.y = height / 2
+      model.y = height * Y_FACTOR
       model.anchor.set(0.5, 0.5)
       const scaleX = width / model.internalModel.originalWidth
       const scaleY = height / model.internalModel.originalHeight
-      model.scale.set(Math.min(scaleX, scaleY) * 0.8)
+      model.scale.set(Math.min(scaleX, scaleY) * SCALE_MULT)
       app.stage.addChild(model)
       modelRef.current = model
     }
